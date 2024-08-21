@@ -35,3 +35,27 @@ The Dockerfile can be found under the `Dockerfile` file:
 I used CircleCI for implementing the CICD However I did not integrate this with Github.
 Note that we need to configure the env variables $DOCKERHUB_USERNAME and $DOCKERHUB_PASSWORD.
 We also need to update the image field in the pod specs.
+
+# Part 4
+
+This part can be found under the subdirectory `domain_extraction`, here you can find:
+* `input_file.txt` containing the test case given in the problem statement
+* Please note that the following solutions only work for domain names with `.com` suffix
+* `domain_extractor_approach1.sh`: Using awk and sed and sort
+  * We start by deleting everything after `.com` using `sed` by capturing the substring that comes before `.com` and replacing the full string by `{captured_string}.com`
+  * Then we will use awk to get all domain names by using any combination of the following separators `[/:.]`
+    * Since we are sure our string ends with `com` now we only need to output the last two strings in lowercase, with a dot separator `tolower($(NF-1)"."$NF)`
+  * Last we apply sort -u to sort and remove duplicates
+* `domain_extractor_approach2.sh`:
+  * Using grep we can extract the string that matches the regex pattern `[a-zA-Z0-9-]+\.com`:
+    * This means that we will extract any alphanumeric character or dash that comes before `.com`
+  * We then use tr to make the string lowercase
+  * Finally we apply sort -u to sort and remove duplicates
+
+## Bonus
+* Web scraping 
+* Text processing and regular expressions
+* Containerization and orchestration with Docker and Kubernetes
+* Continuous integration and continuous delivery
+  * Automated testing and deployment
+* Container Security
