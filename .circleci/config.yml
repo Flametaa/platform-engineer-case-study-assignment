@@ -1,0 +1,57 @@
+version: 2.1
+
+jobs:
+  build-and-push-image:
+    docker:
+      - image: cimg/base:2022.09
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+    parameters:
+      dockerfile_path:
+        type: string
+        description: path to the dockerfile to build the image
+      docker_image_name:
+        type: string
+        description: URI to push the image to
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -f << parameters.dockerfile_path >> . -t "$DOCKERHUB_USERNAME/<< parameters.docker_image_name >>"
+            # We can also add unit tests here
+            # We can also add security check here
+      - run:
+          name: Push Docker Image
+          command: |
+            docker push "$DOCKERHUB_USERNAME/<< parameters.docker_image_name >>"
+
+  deploy:
+    docker:
+      - image: bitnami/kubectl:latest
+    parameters:
+      kubernetes_app_path:
+        type: string
+        description: path to the kubernetes manifest
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Kubernetes
+          command: |
+            kubectl apply -f << parameters.kubernetes_app_path >>
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build-and-push-image:
+          dockerfile_path: Dockerfile
+          docker_image_name: "link-extractor:0.0.1"
+
+      - deploy:
+          requires:
+            - build-and-push-image:
+                kubernetes_app_path: "kubernetes/pod.yaml"

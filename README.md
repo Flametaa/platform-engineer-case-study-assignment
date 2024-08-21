@@ -1,6 +1,8 @@
 # Platform Engineer Case study
 
-Please note that I did not have time to implement unit tests to check the written code. Normally I would create unit tests using pytest and a step in the CICD to do unit testing as well.
+Please note that normally I would implement the following (but I did not find the time to do so):
+* a pre-commit file to run linters and keep the code clean
+* unit tests for the code
 
 ## Part 1
 In order to ensure that the program works well for you please install the requirements listed in `requirements.txt` or use docker to test the program.
@@ -27,3 +29,9 @@ The Dockerfile can be found under the `Dockerfile` file:
       * We can look for an alternative base image that resolves the vulnerabilities if they pose a threat for our application.
 * I packaged the app in a kubernetes `Pod` (we can also go for a `Deployment` but `pod` seemed more appropriate in this case)
   * you can use `kubectl apply -f ./kubernetes/pod.yaml` (I did not test this)
+
+## Part 3
+
+I used CircleCI for implementing the CICD However I did not integrate this with Github.
+Note that we need to configure the env variables $DOCKERHUB_USERNAME and $DOCKERHUB_PASSWORD.
+We also need to update the image field in the pod specs.

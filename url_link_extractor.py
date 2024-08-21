@@ -2,7 +2,7 @@ import argparse
 import json
 import time
 from typing import Set
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +15,7 @@ def extract_absolute_links(url: str) -> Set[str]:
         url (str): the URL to search links in.
     """
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.content, "html.parser")
     links = set()
     for link in soup.find_all("a"):
         href = link.get("href")
@@ -53,8 +53,14 @@ def format_output(links: Set[str], output_format: str):
 def main():
     # Parse arguments using argparse (docs in https://docs.python.org/3/library/argparse.html)
     parser = argparse.ArgumentParser()
-    parser.add_argument('-u', '--urls', nargs='+', required=True, help='HTTP URLs')
-    parser.add_argument('-o', '--output', choices=['stdout', 'json'], required=True, help='Output format')
+    parser.add_argument("-u", "--urls", nargs="+", required=True, help="HTTP URLs")
+    parser.add_argument(
+        "-o",
+        "--output",
+        choices=["stdout", "json"],
+        required=True,
+        help="Output format",
+    )
     args = parser.parse_args()
 
     full_links = set()
@@ -66,7 +72,7 @@ def main():
     format_output(full_links, args.output)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
     # Sleep forever
     while True:

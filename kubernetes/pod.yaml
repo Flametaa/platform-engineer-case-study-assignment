@@ -7,7 +7,8 @@ metadata:
 spec:
   containers:
   - name: link-extractor
-    image: mydocker:latest # The image needs to be pushed to an artifact registry (for example dockerhub)
+    # It would be cleaner to parametrize this with helm
+    image: $DOCKERHUB_USERNAME/link-extractor:0.0.1 # TODO change $DOCKERHUB_USERNAME to corresponding value
     imagePullPolicy: Always
     args: ["-u", "https://news.ycombinator.com", "-o", "stdout"] # We can use helm to parametrize this
     # If this was a real app we will need to setup probes to make sure our application is running fine
