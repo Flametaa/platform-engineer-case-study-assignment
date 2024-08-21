@@ -1,5 +1,6 @@
 import argparse
 import json
+import time
 from typing import Set
 from urllib.parse import urlparse, urljoin
 
@@ -67,3 +68,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # Sleep forever
+    while True:
+        time.sleep(1000)

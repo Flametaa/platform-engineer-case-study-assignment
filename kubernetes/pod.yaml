@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: link-extractor
+  labels:
+    app: link-extractor
+spec:
+  containers:
+  - name: link-extractor
+    image: mydocker:latest # The image needs to be pushed to an artifact registry (for example dockerhub)
+    imagePullPolicy: Always
+    args: ["-u", "https://news.ycombinator.com", "-o", "stdout"] # We can use helm to parametrize this
+    # If this was a real app we will need to setup probes to make sure our application is running fine
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 3000
+      fsGroup: 2000
+
+  restartPolicy: Never

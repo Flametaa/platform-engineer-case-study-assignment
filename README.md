@@ -25,4 +25,5 @@ The Dockerfile can be found under the `Dockerfile` file:
     * We have 7 High and 1 Critical vulnerabilities that come from the base image ![High vulnerabilities](./resources/critical_high_scan.png):
       * We need to be aware of the vulnerabilities that we have to see if they can pause potential security threats or bugs.
       * We can look for an alternative base image that resolves the vulnerabilities if they pose a threat for our application.
-* 
+* I packaged the app in a kubernetes `Pod` (we can also go for a `Deployment` but `pod` seemed more appropriate in this case)
+  * you can use `kubectl apply -f ./kubernetes/pod.yaml` (I did not test this)
