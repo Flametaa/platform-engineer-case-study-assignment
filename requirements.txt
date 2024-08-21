@@ -1,0 +1,4 @@
+requests>=2.20.0
+beautifulsoup4>=4.0.0
+# Update package to resolve high vulnerability in dockerfile
+setuptools>=70.0.0
